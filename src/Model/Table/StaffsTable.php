@@ -72,8 +72,7 @@ class StaffsTable extends Table
 
         $validator
             ->scalar('sf_address')
-            ->requirePresence('sf_address', 'create')
-            ->notEmptyString('sf_address');
+            ->allowEmptyString('sf_address');
 
         $validator
             ->scalar('sf_email')
@@ -111,8 +110,7 @@ class StaffsTable extends Table
 
         $validator
             ->scalar('sf_jobTitle')
-            ->requirePresence('sf_jobTitle', 'create')
-            ->notEmptyString('sf_jobTitle');
+            ->allowEmptyString('sf_jobTitle');
 
         $validator
             ->scalar('sf_website')
@@ -129,8 +127,11 @@ class StaffsTable extends Table
 
         $validator
             ->scalar('sf_token')
-            ->maxLength('sf_token', 64)
+            ->maxLength('sf_token', 128)
             ->allowEmptyString('sf_token');
+
+        $validator
+            ->allowEmptyString('sf_tokenissue');
 
         $validator
             ->scalar('sf_authkey')

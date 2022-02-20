@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $sf_Firstname
  * @property string $sf_Lastname
- * @property string $sf_address
+ * @property string|null $sf_address
  * @property string $sf_email
  * @property string $sf_password
  * @property int $sf_createTime
@@ -19,11 +19,12 @@ use Cake\ORM\Entity;
  * @property string|null $sf_role
  * @property string|null $sf_phone
  * @property string|null $sf_mobile
- * @property string $sf_jobTitle
+ * @property string|null $sf_jobTitle
  * @property string|null $sf_website
  * @property string|null $sf_taxID
  * @property string|null $sf_tags
  * @property string|null $sf_token
+ * @property int|null $sf_tokenissue
  * @property string|null $sf_authkey
  * @property int|null $staff_groups_id
  *
@@ -56,6 +57,7 @@ class Staff extends Entity
         'sf_taxID' => true,
         'sf_tags' => true,
         'sf_token' => true,
+        'sf_tokenissue' => true,
         'sf_authkey' => true,
         'staff_groups_id' => true,
         'staff_group' => true,

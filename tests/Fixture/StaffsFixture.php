@@ -35,6 +35,7 @@ class StaffsFixture extends TestFixture
                 'sf_taxID' => 'Lorem ipsum dolor sit amet',
                 'sf_tags' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'sf_token' => 'Lorem ipsum dolor sit amet',
+                'sf_tokenissue' => 1,
                 'sf_authkey' => 'Lorem ipsum dolor sit amet',
                 'staff_groups_id' => 1,
             ],
