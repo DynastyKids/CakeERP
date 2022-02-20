@@ -41,13 +41,7 @@ $checkConnection = function (string $name) {
     return compact('connected', 'error');
 };
 
-if (!Configure::read('debug')) :
-    throw new NotFoundException(
-        'Please replace templates/Pages/test.php with your own version or re-enable debug mode.'
-    );
-endif;
-
-$cakeDescription = 'CakePHP: the rapid development PHP framework';
+$cakeDescription = 'CakeERP: Status Page';
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,12 +65,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
 <body>
     <header>
         <div class="container text-center">
-            <a href="https://cakephp.org/" target="_blank" rel="noopener">
-                <img alt="CakePHP" src="https://cakephp.org/v2/img/logos/CakePHP_Logo.svg" width="350" />
-            </a>
-            <h1>
-                Welcome to CakePHP <?= Configure::version() ?> Strawberry (🍓)
-            </h1>
+            <h1>Welcome to CakeERP</h1>
         </div>
     </header>
     <main class="main">
@@ -84,9 +73,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
             <div class="content">
                 <div class="row">
                     <div class="column">
-                        <div class="message default text-center">
-                            <small>Please be aware that this page will not be shown if you turn off debug mode unless you replace templates/Pages/home.php with your own version.</small>
-                        </div>
                         <div id="url-rewriting-warning" style="padding: 1rem; background: #fcebea; color: #cc1f1a; border-color: #ef5753;">
                             <ul>
                                 <li class="bullet problem">
@@ -163,70 +149,75 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                         ?>
                         <ul>
                         <?php if ($result['connected']) : ?>
-                            <li class="bullet success">CakePHP is able to connect to the database.</li>
+                            <li class="bullet success">System is able to connect to the database.</li>
                         <?php else : ?>
-                            <li class="bullet problem">CakePHP is NOT able to connect to the database.<br /><?= $result['error'] ?></li>
+                            <li class="bullet problem">System is NOT able to connect to the database.<br /><?= $result['error'] ?></li>
                         <?php endif; ?>
                         </ul>
                     </div>
                     <div class="column">
-                        <h4>DebugKit</h4>
+                        <h4>Debug Mode</h4>
                         <ul>
-                        <?php if (Plugin::isLoaded('DebugKit')) : ?>
-                            <li class="bullet success">DebugKit is loaded.</li>
+                            <?php if (Configure::read('debug')) :?>
+                            <li class="bullet success">Debug mode has been disabled.</li>
                             <?php
-                            $result = $checkConnection('debug_kit');
+//                            throw new NotFoundException('Please disable the debug mode to continue.');
+                            endif;
                             ?>
-                            <?php if ($result['connected']) : ?>
-                                <li class="bullet success">DebugKit can connect to the database.</li>
-                            <?php else : ?>
-                                <li class="bullet problem">DebugKit is <strong>not</strong> able to connect to the database.<br /><?= $result['error'] ?></li>
-                            <?php endif; ?>
-                        <?php else : ?>
-                            <li class="bullet problem">DebugKit is <strong>not</strong> loaded.</li>
-                        <?php endif; ?>
                         </ul>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="column links">
+                    <div class="column">
                         <h3>Getting Started</h3>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/">CakePHP Documentation</a>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/tutorials-and-examples/cms/installation.html">The 20 min CMS Tutorial</a>
+                        <h4>Master Password Reset</h4>
+                            <div class="row">
+                                <div class="column">
+                                    <?php echo $this->Form->control('masteremail',['label'=>'Master Email Address','placeholder'=>'Input your master account email','type'=>'email']);?>
+                                </div>
+                                <div class="column" >
+                                    <?php echo $this->Form->control('masterpass',['label'=>'Master Password','placeholder'=>'Input your master password','type'=>'password']);?>
+                                </div>
+                                <div class="column">
+                                    <?php echo $this->Form->control('masterpass',['label'=>'Master Password','placeholder'=>'Input your master password','type'=>'password']);?>
+                                </div>
+                            </div>
+                                <small>Please keep your master password safe as this is able to control all system features.</small>
+
+                        <h4>Create first account</h4>
+                        <div class="row">
+                            <div class="column" style="width: 45%">
+                                <?php echo $this->Form->control('sf_Firstname',['label'=>'Your First name','placeholder'=>'Please input your firstname']);?>
+                            </div>
+                            <div class="column" style="width: 45%">
+                                <?php echo $this->Form->control('sf_Lastname',['label'=>'Your Last name','placeholder'=>'Please input your lastname']);?>
+                            </div>
+                            <div class="column" style="width: 45%">
+                                <?php echo $this->Form->control('useremail',['label'=>'Account email','placeholder'=>'Please input your account email address','type'=>'email']);?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column" style="width: 45%">
+                                <?php echo $this->Form->control('password',['label'=>'Your password','placeholder'=>"Please input your password",'type'=>'password']);?>
+                            </div>
+                            <div class="column" style="width: 45%">
+                                <?php echo $this->Form->control('passwordV',['label'=>'Password verify','placeholder'=>"Please input your password again to verify",'type'=>'password']);?>
+                            </div>
+                        </div>
+                        <?php echo $this->Form->button('Save'); echo $this->Form->end();?>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="column links">
                         <h3>Help and Bug Reports</h3>
-                        <a target="_blank" rel="noopener" href="irc://irc.freenode.net/cakephp">irc.freenode.net #cakephp</a>
-                        <a target="_blank" rel="noopener" href="http://cakesf.herokuapp.com/">Slack</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/cakephp/cakephp/issues">CakePHP Issues</a>
-                        <a target="_blank" rel="noopener" href="http://discourse.cakephp.org/">CakePHP Forum</a>
+                        Please submit your Bug Reports to GitHub Repository<br>
+                        <a target="_blank" rel="noopener" href="https://github.com/DynastyKids/CakeERP/Issues">GitHub Issues</a>
+                        <a target="_blank" rel="noopener" href="https://github.com/DynastyKids/CakeERP">Repository</a>
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Docs and Downloads</h3>
-                        <a target="_blank" rel="noopener" href="https://api.cakephp.org/">CakePHP API</a>
-                        <a target="_blank" rel="noopener" href="https://bakery.cakephp.org">The Bakery</a>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/">CakePHP Documentation</a>
-                        <a target="_blank" rel="noopener" href="https://plugins.cakephp.org">CakePHP plugins repo</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/cakephp/">CakePHP Code</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/FriendsOfCake/awesome-cakephp">CakePHP Awesome List</a>
-                        <a target="_blank" rel="noopener" href="https://www.cakephp.org">CakePHP</a>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Training and Certification</h3>
-                        <a target="_blank" rel="noopener" href="https://cakefoundation.org/">Cake Software Foundation</a>
-                        <a target="_blank" rel="noopener" href="https://training.cakephp.org/">CakePHP Training</a>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
