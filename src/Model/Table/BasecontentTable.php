@@ -56,7 +56,6 @@ class BasecontentTable extends Table
 
         $validator
             ->scalar('bc_path')
-            ->maxLength('bc_path', 128)
             ->allowEmptyString('bc_path');
 
         $validator
