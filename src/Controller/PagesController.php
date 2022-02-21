@@ -76,10 +76,6 @@ class PagesController extends AppController
         }
     }
 
-    public function status(){
-
-    }
-
     public function setup()
     {
         $initsetting = TableRegistry::getTableLocator()->get('Basecontent')->get(1)->get('bc_int');
@@ -117,6 +113,6 @@ class PagesController extends AppController
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue
-        $this->Authentication->addUnauthenticatedActions(['setup','status']);
+        $this->Authentication->addUnauthenticatedActions(['setup','display']);
     }
 }
