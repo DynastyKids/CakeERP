@@ -1,0 +1,14 @@
+{
+    "name": "CakeERP_dict",
+    "note": "Multi-language support file",
+    "register": {
+        "CN": "注册",
+        "JP": "アカウントを作成",
+        "HK": "注冊"
+    },
+    "login": {
+        "CN": "登录",
+        "JP": "ログイン",
+        "HK": "登入"
+    }
+}

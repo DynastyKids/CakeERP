@@ -109,11 +109,39 @@ class StaffsController extends AppController
     }
 
     public function login(){
+        $this->request->allowMethod(['get', 'post']);
+        $result = $this->Authentication->getResult();
+        debug($result);
+        // regardless of POST or GET, redirect if user is logged in
+        if ($result->isValid()) {
+            // redirect to /articles after login success
+            $redirect = $this->request->getQuery('redirect', [
+                'controller' => 'staffs',
+                'action' => 'index',
+            ]);
 
+            return $this->redirect($redirect);
+        }
+        // display error if user submitted and authentication failed
+        if ($this->request->is('post') && !$result->isValid()) {
+            $this->Flash->error(__('Invalid username or password'));
+        }
     }
 
     public function logout(){
+        $result = $this->Authentication->getResult();
+        if ($result->isValid()){
+            $this->Authentication->logout();
+        }
         $this->Flash->success("You had successfully logout");
         $this->redirect(['action'=>'login']);
+    }
+
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        // Configure the login action to not require authentication, preventing
+        // the infinite redirect loop issue
+        $this->Authentication->addUnauthenticatedActions(['login']);
     }
 }

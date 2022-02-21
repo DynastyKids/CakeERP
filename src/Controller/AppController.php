@@ -14,9 +14,11 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 
 /**
  * Application Controller
@@ -28,6 +30,10 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+    /**
+     * @var \Cake\Datasource\RepositoryInterface|null
+     */
+
     /**
      * Initialization hook method.
      *
@@ -49,5 +55,6 @@ class AppController extends Controller
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+        $this->loadComponent('Authentication.Authentication');
     }
 }

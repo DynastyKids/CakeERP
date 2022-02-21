@@ -48,13 +48,15 @@ return static function (RouteBuilder $routes) {
         /*
          * Here, we are connecting '/' (base path) to a controller called 'Pages',
          * its action called 'display', and we pass a param to select the view file
-         * to use (in this case, templates/Pages/statusi.php)...
+         * to use (in this case, templates/Pages/setup.php)...
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-        $builder->connect('/test', ['controller' => 'Pages', 'action' => 'display', 'statusi']);
+        $builder->connect('/dashboard', ['controller' => 'Pages', 'action' => 'dashboard']);
+        $builder->connect('/status', ['controller' => 'Pages', 'action' => 'status']);
+        $builder->connect('/setup', ['controller' => 'Pages', 'action' => 'setup']);
 
-        $builder->connect('/login',['controller'=>'Staff','action'=>'login']);
-        $builder->connect('/logout',['controller'=>'Staff','action'=>'logout']);
+        $builder->connect('/login',['controller'=>'Staffs','action'=>'login']);
+        $builder->connect('/logout',['controller'=>'Staffs','action'=>'logout']);
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.

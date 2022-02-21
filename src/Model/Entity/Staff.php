@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\Entity;
 
 /**
@@ -64,4 +65,14 @@ class Staff extends Entity
         'staff_groups_id' => true,
         'staff_group' => true,
     ];
+
+    /**
+     * @param string $sf_password
+     */
+    public function _setsfPassword(string $sf_password): ?string
+    {
+        if (strlen($sf_password) > 0){
+            return (new DefaultPasswordHasher())->hash($sf_password);
+        }
+    }
 }

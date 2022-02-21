@@ -19,6 +19,7 @@ use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\Debugger;
 use Cake\Http\Exception\NotFoundException;
+use Cake\ORM\TableRegistry;
 
 $this->disableAutoLayout();
 
@@ -41,7 +42,7 @@ $checkConnection = function (string $name) {
     return compact('connected', 'error');
 };
 
-$cakeDescription = 'CakeERP: Status Page';
+$cakeDescription = 'CakeERP: Initial Setup';
 ?>
 <!DOCTYPE html>
 <html>
@@ -65,7 +66,7 @@ $cakeDescription = 'CakeERP: Status Page';
 <body>
     <header>
         <div class="container text-center">
-            <h1>Welcome to CakeERP</h1>
+            <h1>CakeERP Initial Setup</h1>
         </div>
     </header>
     <main class="main">
@@ -87,62 +88,6 @@ $cakeDescription = 'CakeERP: Status Page';
                 </div>
                 <div class="row">
                     <div class="column">
-                        <h4>Environment</h4>
-                        <ul>
-                        <?php if (version_compare(PHP_VERSION, '7.2.0', '>=')) : ?>
-                            <li class="bullet success">Your version of PHP is 7.2.0 or higher (detected <?= PHP_VERSION ?>).</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your version of PHP is too low. You need PHP 7.2.0 or higher to use CakePHP (detected <?= PHP_VERSION ?>).</li>
-                        <?php endif; ?>
-
-                        <?php if (extension_loaded('mbstring')) : ?>
-                            <li class="bullet success">Your version of PHP has the mbstring extension loaded.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your version of PHP does NOT have the mbstring extension loaded.</li>
-                        <?php endif; ?>
-
-                        <?php if (extension_loaded('openssl')) : ?>
-                            <li class="bullet success">Your version of PHP has the openssl extension loaded.</li>
-                        <?php elseif (extension_loaded('mcrypt')) : ?>
-                            <li class="bullet success">Your version of PHP has the mcrypt extension loaded.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your version of PHP does NOT have the openssl or mcrypt extension loaded.</li>
-                        <?php endif; ?>
-
-                        <?php if (extension_loaded('intl')) : ?>
-                            <li class="bullet success">Your version of PHP has the intl extension loaded.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your version of PHP does NOT have the intl extension loaded.</li>
-                        <?php endif; ?>
-                        </ul>
-                    </div>
-                    <div class="column">
-                        <h4>Filesystem</h4>
-                        <ul>
-                        <?php if (is_writable(TMP)) : ?>
-                            <li class="bullet success">Your tmp directory is writable.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your tmp directory is NOT writable.</li>
-                        <?php endif; ?>
-
-                        <?php if (is_writable(LOGS)) : ?>
-                            <li class="bullet success">Your logs directory is writable.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your logs directory is NOT writable.</li>
-                        <?php endif; ?>
-
-                        <?php $settings = Cache::getConfig('_cake_core_'); ?>
-                        <?php if (!empty($settings)) : ?>
-                            <li class="bullet success">The <em><?= $settings['className'] ?>Engine</em> is being used for core caching. To change the config edit config/app.php</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your cache is NOT working. Please check the settings in config/app.php</li>
-                        <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column">
                         <h4>Database</h4>
                         <?php
                         $result = $checkConnection('default');
@@ -162,54 +107,88 @@ $cakeDescription = 'CakeERP: Status Page';
                             <li class="bullet success">Debug mode has been disabled.</li>
                             <?php
 //                            throw new NotFoundException('Please disable the debug mode to continue.');
-                            endif;
-                            ?>
+                            endif; ?>
                         </ul>
                     </div>
                 </div>
                 <hr>
-                <?php if ($initsetting == 0):?>
-                <div class="row">
-                    <div class="column">
-                        <h3>Getting Started</h3>
-                        <h4>Master Password Reset</h4>
+                <?php if ($result['connected']) : ?>
+                    <?php if (TableRegistry::getTableLocator()->get('Basecontent')->get(1)->get('bc_int') == 0):?>
+                    <?php echo $this->Form->create()?>
+                    <div class="row">
+                        <div class="column">
+                            <h3>Getting Started</h3>
+                            <h4>Master Password Reset</h4>
+                            <small>Please keep your master password safe as this is able to control all system features.</small>
+                                <div class="row">
+                                    <div class="column">
+                                        <?php echo $this->Form->control('masteremail',['label'=>'Master Email Address','placeholder'=>'Input your master account email','type'=>'email','required'=>true]);?>
+                                    </div>
+                                    <div class="column" >
+                                        <?php echo $this->Form->control('masterpass',['label'=>'Master Password','placeholder'=>'Input your master password','type'=>'password','required'=>true]);?>
+                                    </div>
+                                    <div class="column">
+                                        <?php echo $this->Form->control('masterpassv',['label'=>'Confirm Master Password','placeholder'=>'Confirm your master password','type'=>'password','required'=>true]);?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="column"></div>
+                                    <div class="column">
+                                        <div class="message" id="mpmsg">
+                                            <p id="mpletter" class="invalid">Any letters</p>
+                                            <p id="mplength" class="invalid">Minimum <b>8 characters</b></p>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="message" id="mpmsgv">
+                                            <p id="mpvalidate" class="invalid">Master password matches</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <hr>
+                            <h4>Create first account</h4>
                             <div class="row">
+                                <div class="column" style="width: 45%">
+                                    <?php echo $this->Form->control('sf_Firstname',['label'=>'Your First name','placeholder'=>'Please input your firstname']);?>
+                                </div>
+                                <div class="column" style="width: 45%">
+                                    <?php echo $this->Form->control('sf_Middlename',['label'=>'Your Middle name','placeholder'=>'Leave blank if you don\'t have middle name']);?>
+                                </div>
+                                <div class="column" style="width: 45%">
+                                    <?php echo $this->Form->control('sf_Lastname',['label'=>'Your Last name','placeholder'=>'Please input your lastname']);?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="column" style="width: 45%">
+                                    <?php echo $this->Form->control('useremail',['label'=>'Account email','placeholder'=>'Please input your account email address','type'=>'email']);?>
+                                </div>
+                                <div class="column" style="width: 45%">
+                                    <?php echo $this->Form->control('sf_password',['label'=>'User password','placeholder'=>"Please input your password",'type'=>'password']);?>
+                                </div>
+                                <div class="column" style="width: 45%">
+                                    <?php echo $this->Form->control('sf_passwordv',['label'=>'Confirm User Password','placeholder'=>"Input again to confirm your password",'type'=>'password']);?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="column"></div>
                                 <div class="column">
-                                    <?php echo $this->Form->control('masteremail',['label'=>'Master Email Address','placeholder'=>'Input your master account email','type'=>'email','required'=>true]);?>
-                                </div>
-                                <div class="column" >
-                                    <?php echo $this->Form->control('masterpass',['label'=>'Master Password','placeholder'=>'Input your master password','type'=>'password']);?>
+                                    <div class="message" id="uspmsg">
+                                        <p id="uspletter" class="invalid">Any letters</p>
+                                        <p id="usplength" class="invalid">Minimum <b>8 characters</b></p>
+                                    </div>
                                 </div>
                                 <div class="column">
-                                    <?php echo $this->Form->control('masterpass',['label'=>'Master Password','placeholder'=>'Input your master password','type'=>'password']);?>
+                                    <div class="message" id="uspmsgv">
+                                        <p id="uspvalidate" class="invalid">User password matches</p>
+                                    </div>
                                 </div>
                             </div>
-                                <small>Please keep your master password safe as this is able to control all system features.</small>
-
-                        <h4>Create first account</h4>
-                        <div class="row">
-                            <div class="column" style="width: 45%">
-                                <?php echo $this->Form->control('sf_Firstname',['label'=>'Your First name','placeholder'=>'Please input your firstname']);?>
-                            </div>
-                            <div class="column" style="width: 45%">
-                                <?php echo $this->Form->control('sf_Lastname',['label'=>'Your Last name','placeholder'=>'Please input your lastname']);?>
-                            </div>
-                            <div class="column" style="width: 45%">
-                                <?php echo $this->Form->control('useremail',['label'=>'Account email','placeholder'=>'Please input your account email address','type'=>'email']);?>
-                            </div>
+                            <?php echo $this->Form->button('Submit');
+                            echo $this->Form->end();?>
                         </div>
-                        <div class="row">
-                            <div class="column" style="width: 45%">
-                                <?php echo $this->Form->control('password',['label'=>'Your password','placeholder'=>"Please input your password",'type'=>'password']);?>
-                            </div>
-                            <div class="column" style="width: 45%">
-                                <?php echo $this->Form->control('passwordV',['label'=>'Password verify','placeholder'=>"Please input your password again to verify",'type'=>'password']);?>
-                            </div>
-                        </div>
-                        <?php echo $this->Form->button('Save'); echo $this->Form->end();?>
                     </div>
-                </div>
-                <hr>
+                    <hr>
+                    <?php endif;?>
                 <?php endif;?>
                 <div class="row">
                     <div class="column links">
@@ -225,7 +204,119 @@ $cakeDescription = 'CakeERP: Status Page';
     </main>
 </body>
 </html>
+<style>
+    .message {
+        display:none;
+        background: #f1f1f1;
+        color: #000;
+        position: relative;
+        padding: 20px;
+        margin-top: 10px;
+    }
+
+    .message p {
+        padding: 10px 35px;
+        font-size: 18px;
+    }
+
+    .valid {
+        color: green;
+    }
+    .valid:before {
+        position: relative;
+        left: -35px;
+        content: "√";
+    }
+
+    .invalid {
+        color: red;
+    }
+    .invalid:before {
+        position: relative;
+        left: -35px;
+        content: "X";
+    }
+</style>
+<script>
+    var myInput = document.getElementById("masterpass");
+    myInput.onfocus = function() {
+        document.getElementById("mpmsg").style.display = "block";
+    }
+    myInput.onkeyup = function() {
+        var letters = /[a-zA-Z]/g;
+        if(myInput.value.match(letters)) {
+            mpletter.classList.remove("invalid");
+            mpletter.classList.add("valid");
+        } else {
+            mpletter.classList.remove("valid");
+            mpletter.classList.add("invalid");
+        }
+
+        if (myInput.value.length >= 8) {
+            mplength.classList.remove("invalid");
+            mplength.classList.add("valid");
+        } else {
+            mplength.classList.remove("valid");
+            mplength.classList.add("invalid");
+        }
+    }
+</script>
 
 <script>
+    var mpValidate = document.getElementById("masterpassv");
+    var mpInput = document.getElementById("masterpass")
+    mpValidate.onfocus = function() {
+        document.getElementById("mpmsgv").style.display = "block";
+    }
+    mpValidate.onkeyup = function() {
+        if (mpValidate.value === mpInput.value){
+            mpvalidate.classList.remove("invalid");
+            mpvalidate.classList.add("valid");
+        } else {
+            mpvalidate.classList.remove("valid");
+            mpvalidate.classList.add("invalid");
+        }
+    }
+</script>
 
+<script>
+    var uspInput = document.getElementById("sf-password");
+    uspInput.onfocus = function() {
+        document.getElementById("uspmsg").style.display = "block";
+    }
+    uspInput.onkeyup = function() {
+        var letters = /[a-zA-Z]/g;
+        if(uspInput.value.match(letters)) {
+            uspletter.classList.remove("invalid");
+            uspletter.classList.add("valid");
+        } else {
+            uspletter.classList.remove("valid");
+            uspletter.classList.add("invalid");
+        }
+
+        if (uspInput.value.length >= 8) {
+            usplength.classList.remove("invalid");
+            usplength.classList.add("valid");
+        } else {
+            usplength.classList.remove("valid");
+            usplength.classList.add("invalid");
+        }
+    }
+</script>
+
+<script>
+    var uspValidate = document.getElementById("sf-passwordv");
+    var uspInput = document.getElementById("sf-password")
+    uspValidate.onfocus = function() {
+        document.getElementById("uspmsgv").style.display = "block";
+    }
+    uspValidate.onkeyup = function() {
+        if (uspValidate.value === uspInput.value){
+            uspvalidate.classList.remove("invalid");
+            uspvalidate.classList.add("valid");
+        } else {
+            uspvalidate.classList.remove("valid");
+            uspvalidate.classList.add("invalid");
+        }
+    }
 </script>

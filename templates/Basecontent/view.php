@@ -30,6 +30,10 @@
                     <th><?= __('Id') ?></th>
                     <td><?= $this->Number->format($basecontent->id) ?></td>
                 </tr>
+                <tr>
+                    <th><?= __('Bc Int') ?></th>
+                    <td><?= $this->Number->format($basecontent->bc_int) ?></td>
+                </tr>
             </table>
             <div class="text">
                 <strong><?= __('Bc Details') ?></strong>
