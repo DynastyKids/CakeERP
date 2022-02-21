@@ -11,6 +11,9 @@ namespace App\Controller;
  */
 class StaffsController extends AppController
 {
+    public function dashboard(){
+
+    }
     /**
      * Index method
      *
@@ -111,14 +114,10 @@ class StaffsController extends AppController
     public function login(){
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
-        debug($result);
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
             // redirect to /articles after login success
-            $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'staffs',
-                'action' => 'index',
-            ]);
+            $redirect = $this->request->getQuery('redirect', ['/dashboard']);
 
             return $this->redirect($redirect);
         }
