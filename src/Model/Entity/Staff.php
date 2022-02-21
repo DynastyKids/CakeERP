@@ -10,7 +10,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $sf_Firstname
- * @property string $sf_Lastname
+ * @property string|null $sf_MiddleName
+ * @property string|null $sf_Lastname
  * @property string|null $sf_address
  * @property string $sf_email
  * @property string $sf_password
@@ -43,6 +44,7 @@ class Staff extends Entity
      */
     protected $_accessible = [
         'sf_Firstname' => true,
+        'sf_MiddleName' => true,
         'sf_Lastname' => true,
         'sf_address' => true,
         'sf_email' => true,

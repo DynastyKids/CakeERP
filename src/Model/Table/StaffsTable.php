@@ -62,13 +62,19 @@ class StaffsTable extends Table
 
         $validator
             ->scalar('sf_Firstname')
+            ->maxLength('sf_Firstname', 256)
             ->requirePresence('sf_Firstname', 'create')
             ->notEmptyString('sf_Firstname');
 
         $validator
+            ->scalar('sf_MiddleName')
+            ->maxLength('sf_MiddleName', 256)
+            ->allowEmptyString('sf_MiddleName');
+
+        $validator
             ->scalar('sf_Lastname')
-            ->requirePresence('sf_Lastname', 'create')
-            ->notEmptyString('sf_Lastname');
+            ->maxLength('sf_Lastname', 256)
+            ->allowEmptyString('sf_Lastname');
 
         $validator
             ->scalar('sf_address')
@@ -76,13 +82,13 @@ class StaffsTable extends Table
 
         $validator
             ->scalar('sf_email')
-            ->maxLength('sf_email', 45)
+            ->maxLength('sf_email', 128)
             ->requirePresence('sf_email', 'create')
             ->notEmptyString('sf_email');
 
         $validator
             ->scalar('sf_password')
-            ->maxLength('sf_password', 45)
+            ->maxLength('sf_password', 128)
             ->requirePresence('sf_password', 'create')
             ->notEmptyString('sf_password');
 
