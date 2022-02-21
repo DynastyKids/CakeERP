@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string|null $bc_path
  * @property string|null $bc_string
+ * @property int|null $bc_int
  * @property string|null $bc_details
  */
 class Basecontent extends Entity
@@ -27,6 +28,7 @@ class Basecontent extends Entity
     protected $_accessible = [
         'bc_path' => true,
         'bc_string' => true,
+        'bc_int' => true,
         'bc_details' => true,
     ];
 }

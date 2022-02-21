@@ -28,6 +28,7 @@ class BasecontentFixture extends TestFixture
                 'id' => 1,
                 'bc_path' => 'Lorem ipsum dolor sit amet',
                 'bc_string' => 'Lorem ipsum dolor sit amet',
+                'bc_int' => 1,
                 'bc_details' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
             ],
         ];

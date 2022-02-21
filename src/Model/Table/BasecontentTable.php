@@ -61,8 +61,12 @@ class BasecontentTable extends Table
 
         $validator
             ->scalar('bc_string')
-            ->maxLength('bc_string', 64)
+            ->maxLength('bc_string', 128)
             ->allowEmptyString('bc_string');
+
+        $validator
+            ->integer('bc_int')
+            ->allowEmptyString('bc_int');
 
         $validator
             ->scalar('bc_details')

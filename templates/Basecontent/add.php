@@ -19,6 +19,7 @@
                 <?php
                     echo $this->Form->control('bc_path');
                     echo $this->Form->control('bc_string');
+                    echo $this->Form->control('bc_int');
                     echo $this->Form->control('bc_details');
                 ?>
             </fieldset>
