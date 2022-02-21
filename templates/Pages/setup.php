@@ -168,13 +168,14 @@ $cakeDescription = 'CakeERP: Status Page';
                     </div>
                 </div>
                 <hr>
+                <?php if ($initsetting == 0):?>
                 <div class="row">
                     <div class="column">
                         <h3>Getting Started</h3>
                         <h4>Master Password Reset</h4>
                             <div class="row">
                                 <div class="column">
-                                    <?php echo $this->Form->control('masteremail',['label'=>'Master Email Address','placeholder'=>'Input your master account email','type'=>'email']);?>
+                                    <?php echo $this->Form->control('masteremail',['label'=>'Master Email Address','placeholder'=>'Input your master account email','type'=>'email','required'=>true]);?>
                                 </div>
                                 <div class="column" >
                                     <?php echo $this->Form->control('masterpass',['label'=>'Master Password','placeholder'=>'Input your master password','type'=>'password']);?>
@@ -209,6 +210,7 @@ $cakeDescription = 'CakeERP: Status Page';
                     </div>
                 </div>
                 <hr>
+                <?php endif;?>
                 <div class="row">
                     <div class="column links">
                         <h3>Help and Bug Reports</h3>
@@ -223,3 +225,7 @@ $cakeDescription = 'CakeERP: Status Page';
     </main>
 </body>
 </html>
+
+<script>
+
+</script>
